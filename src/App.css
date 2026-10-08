@@ -3156,3 +3156,725 @@
     padding: 25px;
   }
 }
+
+
+/* ==========================================================
+   RAYBOOK — BOOKING CHECKOUT
+========================================================== */
+
+.rb-checkout {
+  min-height: 100vh;
+  padding: 54px 0 100px;
+  background: #faf8f7;
+  color: #141414;
+}
+
+.rb-checkout *,
+.rb-checkout *::before,
+.rb-checkout *::after {
+  box-sizing: border-box;
+}
+
+.rb-checkout-container {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.rb-checkout-heading {
+  margin-bottom: 36px;
+}
+
+.rb-checkout-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 38px;
+  color: #555;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.rb-checkout-back:hover {
+  color: #ed1732;
+  transform: translateX(-3px);
+}
+
+.rb-checkout-eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  color: #ed1732;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.rb-checkout-heading h1 {
+  margin: 0;
+  font-size: clamp(36px, 4.5vw, 55px);
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  font-weight: 800;
+}
+
+.rb-checkout-heading h1 span {
+  color: #ed1732;
+}
+
+.rb-checkout-heading p {
+  max-width: 600px;
+  margin: 16px 0 0;
+  color: #777;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.rb-checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(310px, 1fr);
+  gap: 30px;
+  align-items: start;
+}
+
+.rb-checkout-main,
+.rb-checkout-sidebar {
+  min-width: 0;
+}
+
+.rb-checkout-panel {
+  padding: 30px;
+  margin-bottom: 22px;
+  border: 1px solid #f0eded;
+  border-radius: 23px;
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(30, 20, 20, 0.035);
+}
+
+.rb-checkout-section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 28px;
+}
+
+.rb-checkout-section-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 13px;
+  color: #ed1732;
+  background: #fff0f2;
+}
+
+.rb-checkout-section-heading span {
+  color: #ed1732;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.rb-checkout-section-heading h2 {
+  margin: 5px 0;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.rb-checkout-section-heading p {
+  margin: 0;
+  color: #888;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.rb-checkout-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 21px 17px;
+}
+
+.rb-checkout-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.rb-checkout-field-full {
+  grid-column: 1 / -1;
+}
+
+.rb-checkout-field label {
+  color: #292929;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.rb-checkout-field input {
+  width: 100%;
+  height: 52px;
+  padding: 0 15px;
+  border: 1px solid #e6e3e3;
+  border-radius: 12px;
+  outline: none;
+  background: #fcfbfb;
+  color: #181818;
+  font: inherit;
+  font-size: 14px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.rb-checkout-field input:focus {
+  border-color: #ed1732;
+  box-shadow: 0 0 0 4px rgba(237, 23, 50, 0.07);
+  background: white;
+}
+
+.rb-checkout-field input[aria-invalid="true"] {
+  border-color: #ed1732;
+}
+
+.rb-checkout-field small,
+.rb-checkout-error {
+  color: #dc1833;
+  font-size: 12px;
+}
+
+.rb-checkout-hint {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #999;
+}
+
+.rb-checkout-payment-options {
+  display: grid;
+  gap: 13px;
+}
+
+.rb-checkout-payment-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 17px;
+  border: 1.5px solid #eae7e7;
+  border-radius: 15px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s,
+    transform 0.25s, box-shadow 0.25s;
+}
+
+.rb-checkout-payment-option:hover {
+  transform: translateY(-2px);
+  border-color: #d5c9cc;
+}
+
+.rb-checkout-payment-option.selected {
+  border-color: #ed1732;
+  background: #fff9fa;
+  box-shadow: 0 4px 20px rgba(237, 23, 50, 0.05);
+}
+
+.rb-checkout-payment-option > input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.rb-checkout-payment-option:focus-within {
+  outline: 3px solid rgba(237, 23, 50, 0.18);
+  outline-offset: 2px;
+}
+
+.rb-checkout-payment-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #f6f4f4;
+  color: #333;
+}
+
+.rb-checkout-payment-option.selected .rb-checkout-payment-icon {
+  color: #ed1732;
+  background: #ffe8ec;
+}
+
+.rb-checkout-payment-copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rb-checkout-payment-copy strong {
+  font-size: 14px;
+}
+
+.rb-checkout-payment-copy span {
+  color: #898989;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.rb-checkout-radio {
+  flex-shrink: 0;
+  width: 19px;
+  height: 19px;
+  border: 1.5px solid #d7d7d7;
+  border-radius: 50%;
+  background: white;
+}
+
+.rb-checkout-payment-option.selected .rb-checkout-radio {
+  border: 5px solid #ed1732;
+}
+
+.rb-checkout-info {
+  overflow: hidden;
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 11px;
+  background: #f8f5f5;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.rb-checkout-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  color: #666;
+  font-size: 12px;
+  line-height: 1.7;
+  cursor: pointer;
+}
+
+.rb-checkout-terms input {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  accent-color: #ed1732;
+}
+
+.rb-checkout-primary {
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 999px;
+  background: #ed1732;
+  color: white;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s,
+    box-shadow 0.25s;
+}
+
+.rb-checkout-primary:hover {
+  background: #cc1028;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(237, 23, 50, 0.2);
+}
+
+.rb-checkout-primary:active {
+  transform: scale(0.99);
+}
+
+.rb-checkout-safe-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: 15px 0 0;
+  color: #aaa;
+  font-size: 11px;
+  text-align: center;
+}
+
+.rb-checkout-summary {
+  padding: 27px;
+  border: 1px solid #f0eded;
+  border-radius: 23px;
+  background: white;
+  box-shadow: 0 18px 45px rgba(20, 10, 10, 0.06);
+}
+
+.rb-checkout-summary-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+  color: #ed1732;
+}
+
+.rb-checkout-summary-title h2 {
+  margin: 0;
+  color: #151515;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.rb-checkout-event {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.rb-checkout-event img {
+  width: 90px;
+  height: 88px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 13px;
+}
+
+.rb-checkout-event > div {
+  min-width: 0;
+}
+
+.rb-checkout-event > div > span {
+  color: #ed1732;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.rb-checkout-event h3 {
+  margin: 7px 0 0;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.rb-checkout-event-meta {
+  display: grid;
+  gap: 13px;
+  margin-top: 24px;
+}
+
+.rb-checkout-event-meta > div {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #777;
+  font-size: 13px;
+}
+
+.rb-checkout-event-meta svg {
+  flex-shrink: 0;
+  color: #ed1732;
+}
+
+.rb-checkout-divider {
+  height: 1px;
+  margin: 25px 0;
+  background: #efeded;
+}
+
+.rb-checkout-quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rb-checkout-quantity-row > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rb-checkout-quantity-row strong {
+  font-size: 13px;
+}
+
+.rb-checkout-quantity-row > div:first-child span {
+  color: #888;
+  font-size: 12px;
+}
+
+.rb-checkout-quantity {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.rb-checkout-quantity button {
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  border: 1px solid #e3e3e3;
+  border-radius: 50%;
+  background: white;
+  color: #222;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.rb-checkout-quantity button:hover:not(:disabled) {
+  border-color: #ed1732;
+  background: #fff3f5;
+}
+
+.rb-checkout-quantity button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.rb-checkout-quantity > span {
+  min-width: 15px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.rb-checkout-cost-line,
+.rb-checkout-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rb-checkout-cost-line {
+  margin-bottom: 17px;
+  color: #777;
+  font-size: 13px;
+}
+
+.rb-checkout-cost-line strong {
+  color: #222;
+}
+
+.rb-checkout-total {
+  padding-top: 21px;
+  margin-top: 22px;
+  border-top: 1px solid #efeded;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.rb-checkout-total strong {
+  color: #ed1732;
+  font-size: 25px;
+  letter-spacing: -0.03em;
+}
+
+.rb-checkout-summary-footnote {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 25px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f7f7f7;
+  color: #888;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.rb-checkout-summary-footnote svg {
+  flex-shrink: 0;
+  color: #ed1732;
+}
+
+.rb-checkout-help {
+  margin-top: 20px;
+  padding: 22px;
+  border: 1px solid #eee;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.rb-checkout-help strong {
+  font-size: 13px;
+}
+
+.rb-checkout-help p {
+  color: #888;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.rb-checkout-help button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ed1732;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.rb-checkout-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px 32px;
+}
+
+.rb-checkout-success > svg {
+  margin-bottom: 20px;
+  color: #168c55;
+}
+
+.rb-checkout-success h2 {
+  margin: 5px 0 12px;
+  font-size: 29px;
+  letter-spacing: -0.03em;
+}
+
+.rb-checkout-success > p {
+  max-width: 430px;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.rb-checkout-success-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 100%;
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 14px;
+  background: #faf8f7;
+  font-size: 13px;
+}
+
+.rb-checkout-success-summary span {
+  color: #777;
+  overflow-wrap: anywhere;
+}
+
+.rb-checkout-return {
+  margin-top: 20px;
+  color: #777;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.rb-checkout-missing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.rb-checkout-missing a {
+  color: #ed1732;
+  font-weight: 700;
+}
+
+/* ==========================================================
+   RESPONSIVE LAYOUT
+========================================================== */
+
+@media (max-width: 900px) {
+  .rb-checkout-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rb-checkout-sidebar {
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .rb-checkout {
+    padding: 30px 0 105px;
+  }
+
+  .rb-checkout-container {
+    width: calc(100% - 28px);
+  }
+
+  .rb-checkout-back {
+    margin-bottom: 27px;
+  }
+
+  .rb-checkout-heading {
+    margin-bottom: 27px;
+  }
+
+  .rb-checkout-heading h1 {
+    font-size: 36px;
+  }
+
+  .rb-checkout-heading p {
+    font-size: 14px;
+  }
+
+  .rb-checkout-layout {
+    gap: 20px;
+  }
+
+  .rb-checkout-panel,
+  .rb-checkout-summary {
+    padding: 21px;
+    border-radius: 18px;
+  }
+
+  .rb-checkout-fields {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .rb-checkout-field-full {
+    grid-column: auto;
+  }
+
+  .rb-checkout-section-heading h2 {
+    font-size: 20px;
+  }
+
+  .rb-checkout-payment-option {
+    padding: 13px;
+    gap: 10px;
+  }
+
+  .rb-checkout-event img {
+    width: 75px;
+    height: 77px;
+  }
+
+  .rb-checkout-event h3 {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-checkout *,
+  .rb-checkout *::before,
+  .rb-checkout *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

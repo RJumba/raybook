@@ -1,6 +1,7 @@
 export const events = [
   {
     id: "sip-paint-connect",
+    slug: "sip-paint-connect",
     title: "Sip, Paint & Connect",
     shortTitle: "Sip & Paint",
     date: "31 October 2026",
@@ -23,6 +24,7 @@ export const events = [
 
   {
     id: "sunset-rooftop-sessions",
+    slug: "sunset-rooftop-sessions",
     title: "Sunset Rooftop Sessions",
     shortTitle: "Rooftop Sessions",
     date: "7 November 2026",
@@ -45,6 +47,7 @@ export const events = [
 
   {
     id: "weekend-creative-social",
+    slug: "weekend-creative-social",
     title: "Weekend Creative Social",
     shortTitle: "Creative Social",
     date: "14 November 2026",

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   ArrowLeft,
@@ -20,30 +21,24 @@ import { events } from "../data/events";
 function EventDetails() {
   const { id } = useParams();
 
-  const event = events.find(
-    (item) => item.id === id
-  );
+  const navigate = useNavigate();
+
+  const event = events.find((item) => item.id === id);
 
   const [quantity, setQuantity] = useState(1);
 
   if (!event) {
-    return (
-      <div className="not-found-page">
-        Event not found.
-      </div>
-    );
+    return <div className="not-found-page">Event not found.</div>;
   }
 
   const total = event.price * quantity;
+
 
   return (
     <PageTransition>
       <section className="event-detail-page">
         <div className="section-container">
-          <Link
-            to="/events"
-            className="back-button"
-          >
+          <Link to="/events" className="back-button">
             <ArrowLeft size={17} />
             Back to events
           </Link>
@@ -51,21 +46,14 @@ function EventDetails() {
           <div className="event-detail-grid">
             <div className="event-detail-content">
               <div className="event-detail-image">
-                <img
-                  src={event.image}
-                  alt={event.title}
-                />
+                <img src={event.image} alt={event.title} />
 
-                <div className="event-detail-category">
-                  {event.category}
-                </div>
+                <div className="event-detail-category">{event.category}</div>
               </div>
 
               <div className="event-detail-heading">
                 <div>
-                  <span className="section-label">
-                    UPCOMING EXPERIENCE
-                  </span>
+                  <span className="section-label">UPCOMING EXPERIENCE</span>
 
                   <h1>{event.title}</h1>
                 </div>
@@ -79,13 +67,9 @@ function EventDetails() {
                         url: window.location.href,
                       });
                     } else {
-                      await navigator.clipboard.writeText(
-                        window.location.href
-                      );
+                      await navigator.clipboard.writeText(window.location.href);
 
-                      alert(
-                        "Event link copied to clipboard."
-                      );
+                      alert("Event link copied to clipboard.");
                     }
                   }}
                 >
@@ -117,9 +101,7 @@ function EventDetails() {
 
                   <span>
                     <small>Venue</small>
-                    <strong>
-                      {event.location}
-                    </strong>
+                    <strong>{event.location}</strong>
                   </span>
                 </div>
               </div>
@@ -156,27 +138,18 @@ function EventDetails() {
 
               <div className="event-mini-gallery">
                 {event.gallery.map((image) => (
-                  <img
-                    src={image}
-                    key={image}
-                    alt={event.title}
-                  />
+                  <img src={image} key={image} alt={event.title} />
                 ))}
               </div>
             </div>
 
             <aside className="booking-card">
-              <span className="booking-label">
-                TICKETS
-              </span>
+              <span className="booking-label">TICKETS</span>
 
               <div className="booking-price">
                 <small>Price per person</small>
 
-                <strong>
-                  KES{" "}
-                  {event.price.toLocaleString()}
-                </strong>
+                <strong>KES {event.price.toLocaleString()}</strong>
               </div>
 
               <div className="booking-divider"></div>
@@ -190,9 +163,7 @@ function EventDetails() {
                 <div className="quantity-control">
                   <button
                     onClick={() =>
-                      setQuantity((current) =>
-                        Math.max(1, current - 1)
-                      )
+                      setQuantity((current) => Math.max(1, current - 1))
                     }
                   >
                     <Minus size={16} />
@@ -202,9 +173,7 @@ function EventDetails() {
 
                   <button
                     onClick={() =>
-                      setQuantity((current) =>
-                        Math.min(10, current + 1)
-                      )
+                      setQuantity((current) => Math.min(10, current + 1))
                     }
                   >
                     <Plus size={16} />
@@ -217,29 +186,26 @@ function EventDetails() {
               <div className="booking-total">
                 <span>Total</span>
 
-                <strong>
-                  KES {total.toLocaleString()}
-                </strong>
+                <strong>KES {total.toLocaleString()}</strong>
               </div>
 
               <button
                 className="booking-action"
                 onClick={() =>
-                  alert(
-                    "Checkout will be connected in our next phase."
-                  )
+                  navigate(`/events/${event.slug}/checkout`, {
+                    state: {
+                      quantity,
+                    },
+                  })
                 }
               >
                 <Ticket size={18} />
-
                 Continue to booking
-
                 <ChevronRight size={18} />
               </button>
 
               <p className="booking-note">
-                No payment will be made until you
-                confirm your booking.
+                No payment will be made until you confirm your booking.
               </p>
             </aside>
           </div>

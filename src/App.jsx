@@ -21,6 +21,7 @@ import EventDetails from "./pages/EventDetails";
 import Gallery from "./pages/Gallery";
 import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const location = useLocation();
@@ -72,6 +73,10 @@ function App() {
             <Route
               path="*"
               element={<NotFound />}
+            />
+            <Route
+              path="/events/:slug/checkout"
+              element={<Checkout />}
             />
           </Routes>
         </AnimatePresence>
