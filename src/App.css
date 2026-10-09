@@ -4324,3 +4324,481 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-content.hero-content-centered { animation: none; }
 }
+
+
+/* =========================================================
+   RAYBOOK — ANIMATED UPCOMING EXPERIENCES
+   ========================================================= */
+
+.rb-upcoming {
+  position: relative;
+  padding: 76px 0 70px;
+  overflow: hidden;
+  background: #faf8f6;
+}
+
+.rb-upcoming-container {
+  width: min(1540px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+/* HEADER */
+
+.rb-upcoming-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 29px;
+}
+
+.rb-upcoming-heading h2 {
+  margin: 10px 0 12px;
+  font-size: clamp(38px, 5vw, 72px);
+  line-height: 1.04;
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  color: #101010;
+}
+
+.rb-upcoming-heading h2 span {
+  color: var(--scarlet);
+}
+
+.rb-upcoming-heading p {
+  margin: 0;
+  color: #777;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.rb-upcoming-view-all,
+.rb-upcoming-bottom a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #141414;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.rb-upcoming-view-all:hover,
+.rb-upcoming-bottom a:hover {
+  color: var(--scarlet);
+  transform: translateX(4px);
+}
+
+/* CATEGORY FILTERS */
+
+.rb-upcoming-categories {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 30px;
+  padding: 5px 0 12px;
+
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.rb-upcoming-categories::-webkit-scrollbar {
+  display: none;
+}
+
+.rb-upcoming-categories button {
+  flex: 0 0 auto;
+  padding: 11px 19px;
+  border: 1px solid #e3dddd;
+  border-radius: 999px;
+
+  background: white;
+  color: #444;
+
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+
+  transition:
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s,
+    transform 0.3s,
+    border-color 0.3s;
+}
+
+.rb-upcoming-categories button:hover,
+.rb-upcoming-categories .rb-category-active {
+  background: var(--scarlet);
+  color: white;
+  border-color: var(--scarlet);
+  box-shadow: 0 8px 23px rgba(226, 27, 45, 0.25);
+  transform: translateY(-2px);
+}
+
+/* CAROUSEL */
+
+.rb-upcoming-viewport {
+  --rb-gap: 20px;
+
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 22px 0 35px;
+}
+
+.rb-upcoming-track {
+  display: flex;
+  align-items: stretch;
+  gap: var(--rb-gap);
+  width: max-content;
+
+  animation: rb-marquee 36s linear infinite;
+  will-change: transform;
+}
+
+.rb-upcoming-group {
+  display: flex;
+  align-items: stretch;
+  gap: var(--rb-gap);
+  flex: 0 0 auto;
+}
+
+@keyframes rb-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform:
+      translateX(calc(-50% - var(--rb-gap) / 2));
+  }
+}
+
+/* STOP THE SLIDING WHEN HOVERED OR KEYBOARD-FOCUSED */
+
+.rb-upcoming-viewport:hover .rb-upcoming-track,
+.rb-upcoming-viewport:focus-within .rb-upcoming-track {
+  animation-play-state: paused;
+}
+
+/* FLOATING CARD WRAPPER */
+
+.rb-floating-card {
+  flex: 0 0 310px;
+  width: 310px;
+  min-width: 0;
+  position: relative;
+
+  animation: rb-card-float 4s ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+
+@keyframes rb-card-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+/* EVENT CARDS — UPCOMING SECTION ONLY */
+
+.rb-upcoming .event-card {
+  position: relative;
+  height: 100%;
+
+  overflow: hidden;
+  border-radius: 21px;
+
+  background: #17171b;
+  border: 1px solid rgba(226, 27, 45, 0.12);
+  color: white;
+
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+
+  transition:
+    transform 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.rb-upcoming .event-card:hover,
+.rb-upcoming .event-card:focus-within {
+  transform: translateY(-6px) scale(1.025);
+  border-color: var(--scarlet);
+
+  box-shadow:
+    0 0 0 1px rgba(226, 27, 45, 0.55),
+    0 0 25px rgba(226, 27, 45, 0.4),
+    0 0 55px rgba(226, 27, 45, 0.17),
+    0 22px 40px rgba(0, 0, 0, 0.2);
+
+  z-index: 5;
+}
+
+.rb-upcoming .event-image-wrapper {
+  height: 345px;
+  overflow: hidden;
+}
+
+.rb-upcoming .event-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform 0.65s ease,
+    filter 0.65s ease;
+}
+
+.rb-upcoming .event-card:hover img,
+.rb-upcoming .event-card:focus-within img {
+  transform: scale(1.09);
+  filter: brightness(0.85);
+}
+
+/* DARK EVENT DETAILS */
+
+.rb-upcoming .event-card-body {
+  padding: 19px 18px 20px;
+}
+
+.rb-upcoming .event-meta {
+  color: #aaaaaf;
+  font-size: 11px;
+}
+
+.rb-upcoming .event-meta svg {
+  color: #ff5667;
+}
+
+.rb-upcoming .event-title-link,
+.rb-upcoming .event-card h3 {
+  color: white;
+}
+
+.rb-upcoming .event-card h3 {
+  margin: 16px 0 20px;
+  font-size: 19px;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.rb-upcoming .event-card:hover h3,
+.rb-upcoming .event-card:focus-within h3 {
+  color: #ff5667;
+}
+
+.rb-upcoming .event-category {
+  background: rgba(226, 27, 45, 0.9);
+  color: white;
+  font-weight: 800;
+}
+
+.rb-upcoming .event-card-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.rb-upcoming .event-price small {
+  color: #aaaaaf;
+}
+
+.rb-upcoming .event-price strong {
+  color: #ff5366;
+  font-size: 18px;
+}
+
+.rb-upcoming .event-arrow {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.rb-upcoming .event-arrow:hover,
+.rb-upcoming .event-arrow:focus-visible {
+  background: var(--scarlet);
+  border-color: var(--scarlet);
+
+  box-shadow: 0 0 20px rgba(226, 27, 45, 0.6);
+}
+
+/* HEART BUTTON */
+
+.rb-upcoming .heart-button {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.rb-upcoming .heart-liked {
+  background: var(--scarlet);
+  color: white;
+}
+
+/* EMPTY CATEGORY STATE */
+
+.rb-upcoming-empty {
+  min-height: 240px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  color: #777;
+}
+
+.rb-upcoming-empty svg {
+  color: var(--scarlet);
+}
+
+.rb-upcoming-empty h3 {
+  margin: 16px 0 5px;
+  color: #171717;
+}
+
+/* BOTTOM BAR */
+
+.rb-upcoming-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-top: 13px;
+  padding-top: 20px;
+
+  border-top: 1px solid #eae5e5;
+}
+
+.rb-upcoming-bottom > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: #777;
+  font-size: 12px;
+}
+
+.rb-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+
+  background: var(--scarlet);
+  box-shadow: 0 0 0 5px rgba(226, 27, 45, 0.1);
+}
+
+/* TABLET */
+
+@media (max-width: 950px) {
+  .rb-upcoming {
+    padding: 60px 0;
+  }
+
+  .rb-upcoming-container {
+    width: calc(100% - 36px);
+  }
+
+  .rb-floating-card {
+    flex-basis: 285px;
+    width: 285px;
+  }
+
+  .rb-upcoming .event-image-wrapper {
+    height: 320px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+  .rb-upcoming {
+    padding: 52px 0;
+  }
+
+  .rb-upcoming-container {
+    width: calc(100% - 28px);
+  }
+
+  .rb-upcoming-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .rb-upcoming-heading h2 {
+    font-size: clamp(35px, 9vw, 49px);
+  }
+
+  .rb-upcoming-heading p {
+    font-size: 13px;
+  }
+
+  .rb-upcoming-categories {
+    margin-bottom: 16px;
+  }
+
+  .rb-upcoming-viewport {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .rb-upcoming-track,
+  .rb-floating-card {
+    animation: none;
+    will-change: auto;
+  }
+
+  .rb-floating-card {
+    flex-basis: min(78vw, 300px);
+    width: min(78vw, 300px);
+    scroll-snap-align: start;
+  }
+
+  .rb-upcoming .event-image-wrapper {
+    height: 300px;
+  }
+
+  /* Show one set of cards on small screens */
+  .rb-upcoming-group[aria-hidden="true"] {
+    display: none;
+  }
+
+  .rb-upcoming-bottom > span {
+    display: none;
+  }
+
+  .rb-upcoming-bottom {
+    justify-content: flex-end;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-upcoming-track,
+  .rb-floating-card {
+    animation: none;
+    will-change: auto;
+  }
+
+  .rb-upcoming-viewport {
+    overflow-x: auto;
+  }
+
+  .rb-upcoming-group[aria-hidden="true"] {
+    display: none;
+  }
+
+  .rb-upcoming .event-card,
+  .rb-upcoming .event-image-wrapper img {
+    transition: none;
+  }
+}

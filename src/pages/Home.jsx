@@ -183,46 +183,129 @@ function FeaturedEvent() {
 }
 
 
+
 function EventsSection() {
   const [activeCategory, setActiveCategory] = useState("All Events");
 
+  const filteredEvents =
+    activeCategory === "All Events"
+      ? events
+      : events.filter(
+          (event) => event.category === activeCategory
+        );
+
+  const hasEvents = filteredEvents.length > 0;
+
+  // Two identical groups make a seamless continuous carousel.
+  const eventGroups = hasEvents
+    ? [filteredEvents, filteredEvents]
+    : [];
+
   return (
-    <section className="events-section" id="events">
-      <div className="section-container">
-        <div className="section-heading-row">
+    <section
+      className="events-section rb-upcoming"
+      id="events"
+      aria-label="Upcoming experiences"
+    >
+      <div className="rb-upcoming-container">
+        <div className="rb-upcoming-heading">
           <div>
-            <div className="section-label">WHAT'S HAPPENING</div>
-            <h2>Upcoming experiences</h2>
+            <span className="section-label">
+              WHAT'S HAPPENING
+            </span>
+
+            <h2>
+              Upcoming <span>Experiences.</span>
+            </h2>
+
+            <p>
+              Discover what's coming. Find your next
+              unforgettable experience.
+            </p>
           </div>
 
-          <Link to="/events" className="desktop-view-all">
+          <Link
+            to="/events"
+            className="rb-upcoming-view-all"
+          >
             View all events
-            <ArrowRight size={18} />
+            <ArrowRight size={19} />
           </Link>
         </div>
 
-        <div className="category-row">
+        <div
+          className="rb-upcoming-categories"
+          aria-label="Filter events by category"
+        >
           {categories.map((category) => (
             <button
+              type="button"
               key={category}
+              aria-pressed={activeCategory === category}
+              className={
+                activeCategory === category
+                  ? "rb-category-active"
+                  : ""
+              }
               onClick={() => setActiveCategory(category)}
-              className={activeCategory === category ? "category-active" : ""}
             >
               {category}
             </button>
           ))}
         </div>
 
-        <div className="events-grid">
-          {events.map((event) => (
-            <EventCard event={event} key={event.id} />
-          ))}
-        </div>
+        {hasEvents ? (
+          <div
+            className="rb-upcoming-viewport"
+            aria-label="Upcoming events carousel"
+          >
+            <div
+              key={activeCategory}
+              className="rb-upcoming-track"
+            >
+              {eventGroups.map((group, groupIndex) => (
+                <div
+                  className="rb-upcoming-group"
+                  key={groupIndex}
+                  aria-hidden={groupIndex === 1}
+                  inert={groupIndex === 1}
+                >
+                  {group.map((event, index) => (
+                    <div
+                      className="rb-floating-card"
+                      key={`${groupIndex}-${event.id}`}
+                      style={{
+                        "--float-delay": `${index * -0.65}s`,
+                      }}
+                    >
+                      <EventCard event={event} />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="rb-upcoming-empty">
+            <Sparkles size={25} />
+            <h3>No experiences in this category yet</h3>
+            <p>
+              Explore another category or browse all events.
+            </p>
+          </div>
+        )}
 
-        <Link to="/events" className="mobile-view-all">
-          Browse all experiences
-          <ArrowRight size={18} />
-        </Link>
+        <div className="rb-upcoming-bottom">
+          <span>
+            <span className="rb-live-dot" />
+            Explore events at your own pace
+          </span>
+
+          <Link to="/events">
+            Explore all experiences
+            <ArrowRight size={17} />
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -236,7 +319,7 @@ function ExperienceSection() {
           <div className="section-label light-label">SIMPLE BOOKING</div>
 
           <h2>
-            Your next great moment
+            Your next event
             <br />
             is only <span>3 steps</span> away.
           </h2>
@@ -364,9 +447,9 @@ function Home() {
       <>
         <Hero />
 
-        <FeaturedEvent />
-
         <EventsSection />
+
+        <FeaturedEvent />
 
         <ExperienceSection />
 
