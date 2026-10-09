@@ -370,9 +370,7 @@
   font-weight: 900;
 }
 
-.hero h1 span {
-  color: var(--scarlet);
-}
+
 
 .hero-description {
   max-width: 525px;
@@ -3877,4 +3875,211 @@
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+/* =========================================================
+   RAYBOOK — WELCOME HERO (consolidated replacement)
+   Replaces the old appended HOME HERO section.
+   ========================================================= */
+.hero {
+  min-height: min(820px, 100svh);
+  min-height: clamp(620px, 91svh, 820px);
+  padding-top: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(6, 5, 10, .48), rgba(6, 5, 10, .62) 65%, rgba(6, 5, 10, .78)),
+    url("https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1900&q=90") center / cover no-repeat;
+}
+
+/* Visible scarlet illumination BEHIND the title, with a second low glow. */
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: auto;
+  height: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0;
+  transform: none;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 45% 34% at 50% 42%, rgba(226,27,45,.33), transparent 85%),
+    radial-gradient(ellipse 58% 25% at 50% 93%, rgba(226,27,45,.43), transparent 90%);
+  filter: blur(24px);
+}
+.hero-overlay {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 25%, rgba(0,0,0,.32) 100%);
+}
+.hero-container.hero-container-centered {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1320px;
+  min-height: 0;
+  margin: 0 auto;
+  padding: clamp(72px, 9vh, 115px) 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  text-align: center;
+}
+.hero-content.hero-content-centered {
+  width: 100%;
+  max-width: 1150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: heroWelcomeIn .9s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes heroWelcomeIn {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero .hero-welcome-title {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .09em;
+  font-size: clamp(48px, 7.7vw, 118px);
+  font-weight: 950;
+  line-height: .9;
+  letter-spacing: -.058em;
+  text-transform: uppercase;
+  text-shadow: 0 7px 34px rgba(0,0,0,.35);
+}
+.hero .hero-welcome-top { color: #fff; }
+.hero .hero-brand-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.13em;
+  white-space: nowrap;
+}
+
+/* Large hero logo matching the header identity */
+.hero .hero-brand-mark {
+  width: clamp(65px, 7vw, 105px);
+  height: clamp(65px, 7vw, 105px);
+
+  flex: 0 0 auto;
+
+  display: inline-grid;
+  place-items: center;
+
+  border-radius: 50% 50% 50% 12%;
+
+  background: var(--scarlet);
+  color: #ffffff;
+
+  font-size: clamp(38px, 4vw, 64px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+
+  transform: rotate(-7deg);
+
+  box-shadow: 0 8px 25px rgba(226, 27, 45, 0.25);
+
+  transition:
+    transform 0.45s ease,
+    box-shadow 0.45s ease,
+    background 0.45s ease;
+}
+
+/* Glow when hovering anywhere within the hero */
+.hero:hover .hero-brand-mark {
+  transform: rotate(0deg) scale(1.08);
+
+  box-shadow:
+    0 0 20px rgba(226, 27, 45, 0.9),
+    0 0 50px rgba(226, 27, 45, 0.65),
+    0 0 100px rgba(226, 27, 45, 0.4);
+}
+
+/* Additional glow when hovering directly over the logo */
+.hero .hero-brand-mark:hover {
+  transform: rotate(0deg) scale(1.13);
+
+  box-shadow:
+    0 0 25px rgba(226, 27, 45, 1),
+    0 0 65px rgba(226, 27, 45, 0.8),
+    0 0 110px rgba(226, 27, 45, 0.55);
+}
+/* Reduce the glyph without accidentally shrinking the entire badge. */
+.hero .hero-brand-mark { font-family: inherit; }
+.hero .hero-brand-word { color: var(--scarlet); }
+.hero-content-centered .hero-description {
+  width: 100%;
+  max-width: 690px;
+  margin: 32px auto 0;
+  color: rgba(255,255,255,.9);
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.7;
+  text-wrap: balance;
+}
+.hero-content-centered .hero-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin-top: 29px;
+}
+.hero-content-centered .primary-button:hover {
+  box-shadow: 0 0 28px rgba(226,27,45,.42), 0 14px 35px rgba(226,27,45,.2);
+}
+@media (max-width: 950px) {
+  .hero-container.hero-container-centered { min-height: 0; padding: 75px 22px; }
+}
+@media (max-width: 650px) {
+  .hero {
+    min-height: clamp(590px, 85svh, 760px);
+    padding-top: 68px;
+    background-position: 59% center;
+  }
+  .hero::before {
+    background:
+      radial-gradient(ellipse 75% 38% at 50% 40%, rgba(226,27,45,.29), transparent 90%),
+      radial-gradient(ellipse 85% 27% at 50% 88%, rgba(226,27,45,.35), transparent 90%);
+  }
+  .hero-container.hero-container-centered { min-height: 0; padding: 65px 17px 75px; }
+  .hero .hero-welcome-title {
+    font-size: clamp(35px, 11vw, 66px);
+    line-height: .95;
+    gap: .14em;
+    letter-spacing: -.055em;
+  }
+  .hero .hero-brand-line { gap: .12em; }
+  .hero .hero-brand-mark {
+  width: clamp(38px, 10vw, 60px);
+  height: clamp(38px, 10vw, 60px);
+
+  font-size: clamp(23px, 6vw, 36px);
+}
+  .hero-content-centered .hero-description { max-width: 440px; margin-top: 25px; font-size: 14px; }
+  .hero-content-centered .hero-buttons { width: 100%; margin-top: 25px; }
+  .hero-content-centered .primary-button,
+  .hero-content-centered .secondary-button { min-width: 142px; }
+}
+@media (max-width: 390px) {
+  .hero .hero-welcome-title { font-size: clamp(32px, 10.5vw, 41px); }
+  .hero-content-centered .hero-buttons { flex-direction: column; }
+  .hero-content-centered .primary-button,
+  .hero-content-centered .secondary-button { width: min(100%, 280px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-content.hero-content-centered { animation: none; }
 }

@@ -24,94 +24,52 @@ const categories = [
   "Campus",
   "Creative",
 ];
-
 function Hero() {
   return (
     <section className="hero" id="home">
       <div className="hero-overlay"></div>
 
-      <div className="hero-container">
-        <div className="hero-content">
-          <div className="hero-eyebrow">
-            <Sparkles size={17} />
-            <span>Your next experience starts here</span>
-          </div>
+      <div className="hero-container hero-container-centered">
+        <div className="hero-content hero-content-centered">
+          <h1 className="hero-welcome-title">
+            <span className="hero-welcome-top">
+              WELCOME TO
+            </span>
 
-          <h1>
-            Discover.
-            <br />
-            <span>Book.</span>
-            <br />
-            Celebrate.
+            <span className="hero-brand-line">
+              <span
+                className="hero-brand-mark"
+                aria-hidden="true"
+              >
+                R
+              </span>
+
+              <span className="hero-brand-word">
+                RAYBOOK
+              </span>
+            </span>
           </h1>
 
           <p className="hero-description">
-            Find memorable events, meet amazing people and book your place in
-            just a few clicks.
+            Discover memorable events, book your place and
+            turn ordinary days into experiences worth remembering.
           </p>
 
           <div className="hero-buttons">
-            <a href="/events" className="primary-button">
+            <Link
+              to="/events"
+              className="primary-button"
+            >
               Explore Events
               <ArrowRight size={19} />
-            </a>
+            </Link>
 
-            <a href="#experience" className="secondary-button">
+            <a
+              href="#experience"
+              className="secondary-button"
+            >
               How it works
             </a>
-          </div>
-
-          <div className="hero-stats">
-            <div>
-              <strong>20+</strong>
-              <span>Experiences</span>
-            </div>
-
-            <div className="stat-divider"></div>
-
-            <div>
-              <strong>1.2K+</strong>
-              <span>Guests</span>
-            </div>
-
-            <div className="stat-divider"></div>
-
-            <div>
-              <strong>4.9</strong>
-              <span>Rating</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="hero-event-card">
-          <div className="hero-card-label">NEXT EVENT</div>
-
-          <div className="hero-card-content">
-            <div className="date-square">
-              <span>OCT</span>
-              <strong>31</strong>
-            </div>
-
-            <div>
-              <p>Featured Experience</p>
-              <h3>Sip, Paint & Connect</h3>
-
-              <div className="hero-location">
-                <MapPin size={15} />
-                Lelesan Resort
-              </div>
-            </div>
-          </div>
-
-          <div className="hero-card-footer">
-            <div>
-              <span>From</span>
-              <strong>KES 1,200</strong>
-            </div>
-
-            <button aria-label="View featured event">
-              <ArrowRight size={20} />
-            </button>
           </div>
         </div>
       </div>
