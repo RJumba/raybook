@@ -22,6 +22,7 @@ import Gallery from "./pages/Gallery";
 import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const location = useLocation();
@@ -77,6 +78,10 @@ function App() {
             <Route
               path="/events/:slug/checkout"
               element={<Checkout />}
+            />
+            <Route 
+              path="/signup" 
+              element={<SignUp />} 
             />
           </Routes>
         </AnimatePresence>
