@@ -82,66 +82,106 @@ function Hero() {
   );
 }
 
+
 function FeaturedEvent() {
+  const featuredEvent = events.find(
+    (event) => event.slug === "sip-paint-connect"
+  );
+
+  if (!featuredEvent) return null;
+
   return (
-    <section className="featured-section">
-      <div className="section-container featured-grid">
-        <div className="featured-image">
-          <img
-            src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1300&q=85"
-            alt="People enjoying a creative painting experience"
-          />
+    <section className="featured-section" id="featured">
+      <div className="section-container">
 
-          <div className="featured-price">
-            <span>ONLY</span>
-            <strong>1,200/-</strong>
-          </div>
-        </div>
+        <div className="featured-section-heading">
+          <span className="section-label">
+            FEATURED EXPERIENCE
+          </span>
 
-        <div className="featured-copy">
-          <div className="section-label">FEATURED EXPERIENCE</div>
-
-          <h2>
-            Paint something.
-            <br />
-            Meet someone.
-            <br />
-            <span>Make a memory.</span>
-          </h2>
+          <h2>Don't miss this experience</h2>
 
           <p>
-            A relaxed evening built around creativity, conversation, music and
-            good energy. No painting experience needed — just come ready to
-            enjoy yourself.
+            Handpicked moments worth showing up for.
           </p>
+        </div>
 
-          <div className="featured-details">
-            <div className="detail">
-              <CalendarDays size={21} />
-              <div>
-                <span>Date</span>
-                <strong>31 October 2026</strong>
-              </div>
-            </div>
+        <div className="featured-showcase">
 
-            <div className="detail">
-              <MapPin size={21} />
-              <div>
-                <span>Venue</span>
-                <strong>Lelesan Resort</strong>
-              </div>
+          <div className="featured-image">
+            <img
+              src={featuredEvent.image}
+              alt={featuredEvent.title}
+              loading="lazy"
+            />
+
+            <div className="featured-price">
+              <span>ONLY</span>
+              <strong>
+                {featuredEvent.price.toLocaleString("en-KE")}/-
+              </strong>
             </div>
           </div>
 
-          <Link to="/events/sip-paint-connect" className="text-link">
-            View experience
-            <ArrowRight size={18} />
-          </Link>
+          <div className="featured-copy">
+
+            <span className="featured-category">
+              {featuredEvent.category}
+            </span>
+
+            <h3>{featuredEvent.title}</h3>
+
+            <p className="featured-tagline">
+              Paint something. Meet someone.
+              <span> Make a memory.</span>
+            </p>
+
+            <p className="featured-description">
+              {featuredEvent.description}
+            </p>
+
+            <div className="featured-details">
+              <div className="detail">
+                <CalendarDays size={19} />
+                <div>
+                  <span>Date</span>
+                  <strong>{featuredEvent.date}</strong>
+                </div>
+              </div>
+
+              <div className="detail">
+                <MapPin size={19} />
+                <div>
+                  <span>Venue</span>
+                  <strong>{featuredEvent.location}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="featured-footer">
+              <div className="featured-from-price">
+                <span>STARTING FROM</span>
+                <strong>
+                  KES {featuredEvent.price.toLocaleString("en-KE")}
+                </strong>
+              </div>
+
+              <Link
+                to={`/events/${featuredEvent.slug}`}
+                className="featured-view-button"
+              >
+                View experience
+                <ArrowRight size={19} />
+              </Link>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 function EventsSection() {
   const [activeCategory, setActiveCategory] = useState("All Events");
