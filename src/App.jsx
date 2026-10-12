@@ -23,6 +23,7 @@ import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
 import SignUp from "./pages/SignUp";
+import OrganiserDashboard from "./pages/OrganiserDashboard";
 
 function App() {
   const location = useLocation();
@@ -82,6 +83,10 @@ function App() {
             <Route 
               path="/signup" 
               element={<SignUp />} 
+            />
+            <Route
+              path="/organiser-preview"
+              element={<OrganiserDashboard />}
             />
           </Routes>
         </AnimatePresence>
