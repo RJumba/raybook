@@ -25,6 +25,7 @@ import Checkout from "./pages/Checkout";
 import SignUp from "./pages/SignUp";
 import OrganiserDashboard from "./pages/OrganiserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import ApiTest from "./pages/ApiTest";
 
 function App() {
   const location = useLocation();
@@ -92,6 +93,10 @@ function App() {
            <Route 
               path="/admin-preview" 
               element={<AdminDashboard />} 
+            />
+            <Route
+              path="/api-test"
+              element={<ApiTest />} 
             />
           </Routes>
         </AnimatePresence>
