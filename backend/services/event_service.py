@@ -51,3 +51,46 @@ def reject_event(event_data: dict, reason: str):
     updated_event["rejection_reason"] = reason.strip()
 
     return updated_event
+
+
+def filter_public_events(
+    events: list[dict],
+    category: str | None = None,
+    search: str | None = None
+) -> list[dict]:
+
+    # Clean the incoming search values
+    category_text = category.strip().casefold() if category else ""
+    search_text = search.strip().casefold() if search else ""
+
+    # Create an empty list for matching events
+    results = []
+
+    # Examine each event
+    for event in events:
+
+        # Rule 1: Only approved events are public
+        if event.get("status") != "approved":
+            continue
+
+        # Rule 2: Filter by category when requested
+        if category_text and category_text != "all":
+
+            if event.get("category", "").casefold() != category_text:
+                continue
+
+        # Rule 3: Search the title and location
+        if search_text:
+
+            searchable_text = (
+                event.get("title", "") + " " +
+                event.get("location", "")
+            ).casefold()
+
+            if search_text not in searchable_text:
+                continue
+
+        # The event passed all checks
+        results.append(event)
+
+    return results
