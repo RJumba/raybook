@@ -3,13 +3,20 @@ from uuid import uuid4
 
 from fastapi import APIRouter, HTTPException
 
-from schemas.event import EventCreate, EventRejectRequest
+from schemas.event import (
+    EventCreate,
+    EventRejectRequest,
+    EventUpdate,
+    EventCancelRequest
+)
 
 from services.event_service import (
     submit_event,
     approve_event,
     reject_event,
-    filter_public_events
+    filter_public_events,
+    update_event,
+    cancel_event
 )
 
 
@@ -144,3 +151,82 @@ def get_event(event_id: str):
 
     # Return the event details
     return event
+
+
+# ENDPOINT 6: Update an existing event
+
+@router.patch("/{event_id}")
+def update_event_endpoint(
+    event_id: str,
+    updates: EventUpdate
+):
+
+    # Find the existing event
+    existing_event = events_store.get(event_id)
+
+    if existing_event is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Event not found"
+        )
+
+    # Get only fields provided in the request
+    changes = updates.model_dump(
+        exclude_unset=True,
+        mode="json"
+    )
+
+    # Apply our event editing business logic
+    try:
+        updated_event = update_event(
+            existing_event,
+            changes
+        )
+
+    except ValueError as error:
+        raise HTTPException(
+            status_code=409,
+            detail=str(error)
+        ) from error
+
+    # Save the updated event in temporary storage
+    events_store[event_id] = updated_event
+
+    return updated_event
+
+
+# ENDPOINT 7: Cancel an event
+
+@router.patch("/{event_id}/cancel")
+def cancel_event_endpoint(
+    event_id: str,
+    cancellation: EventCancelRequest
+):
+
+    # Find the event
+    existing_event = events_store.get(event_id)
+
+    # Check whether the event exists
+    if existing_event is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Event not found"
+        )
+
+    # Apply our cancellation business rules
+    try:
+        cancelled_event = cancel_event(
+            existing_event,
+            cancellation.reason
+        )
+
+    except ValueError as error:
+        raise HTTPException(
+            status_code=409,
+            detail=str(error)
+        ) from error
+
+    # Update the event in temporary storage
+    events_store[event_id] = cancelled_event
+
+    return cancelled_event

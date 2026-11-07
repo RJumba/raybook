@@ -94,3 +94,65 @@ def filter_public_events(
         results.append(event)
 
     return results
+
+
+def update_event(event_data: dict, changes: dict):
+
+    # Only pending and rejected events can be edited
+    if event_data.get("status") not in ["pending", "rejected"]:
+        raise ValueError(
+            "Only pending or rejected events can be edited."
+        )
+
+    # Create a copy of the existing event
+    updated_event = event_data.copy()
+
+    # Apply only the fields that were changed
+    updated_event.update(changes)
+
+    # Any corrected event must be pending review
+    updated_event["status"] = "pending"
+
+    # Remove any previous rejection reason
+    updated_event.pop("rejection_reason", None)
+
+    return updated_event
+
+
+def cancel_event(event_data: dict, reason: str):
+
+    # Rule 1: Only allowed statuses can be cancelled
+    allowed_statuses = ["pending", "rejected", "approved"]
+
+    if event_data.get("status") not in allowed_statuses:
+        raise ValueError(
+            "This event cannot be cancelled."
+        )
+
+    # Rule 2: Do not cancel events with sold tickets
+    if event_data.get("tickets_sold") != 0:
+        raise ValueError(
+            "Events with sold tickets cannot be cancelled yet."
+        )
+
+    # Rule 3: A cancellation reason is mandatory
+    cleaned_reason = reason.strip()
+
+    if len(cleaned_reason) < 3:
+        raise ValueError(
+            "Cancellation reason must contain at least 3 characters."
+        )
+
+    # Create a copy of the existing event
+    updated_event = event_data.copy()
+
+    # Change its status
+    updated_event["status"] = "cancelled"
+
+    # Store the reason for cancellation
+    updated_event["cancellation_reason"] = cleaned_reason
+
+    # Remove any outdated rejection reason
+    updated_event.pop("rejection_reason", None)
+
+    return updated_event
