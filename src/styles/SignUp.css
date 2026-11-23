@@ -239,3 +239,23 @@
     transition: none;
   }
 }
+
+.signup-success {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #16803c;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 12px 0;
+}
+
+.signup-success svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.signup-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

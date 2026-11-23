@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import {
   ArrowRight,
   Eye,
@@ -10,6 +11,8 @@ import {
   UserRound,
   CheckCircle2,
 } from "lucide-react";
+
+import { supabase } from "../lib/supabase";
 
 import PageTransition from "../components/PageTransition";
 import "../styles/SignUp.css";
@@ -24,36 +27,127 @@ function SignUp() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [signupComplete, setSignupComplete] = useState(false);
+
 
   const updateField = (event) => {
+    const { name, value } = event.target;
+
     setForm((previous) => ({
       ...previous,
-      [event.target.name]: event.target.value,
+      [name]: value,
     }));
+
     setError("");
   };
 
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (form.password.length < 8) {
-      setError("Password must contain at least 8 characters.");
+    if (loading || signupComplete) return;
+
+    setError("");
+    setSuccess("");
+
+    const fullName = form.name.trim();
+    const email = form.email.trim().toLowerCase();
+
+    
+    if (fullName.length < 2) {
+      setError("Please enter your full name.");
       return;
     }
 
+    if (form.password.length < 8) {
+      setError(
+        "Password must contain at least 8 characters."
+      );
+      return;
+    }
+
+    
     if (form.password !== form.confirmPassword) {
       setError("Your passwords do not match.");
       return;
     }
 
-    alert("Account registration will be connected to Supabase.");
+    setLoading(true);
+
+    try {
+    
+      const { data, error: signupError } =
+        await supabase.auth.signUp({
+          email,
+          password: form.password,
+
+          options: {
+            data: {
+              full_name: fullName,
+            },
+
+            emailRedirectTo:
+              `${window.location.origin}/account`,
+          },
+        });
+
+      if (signupError) {
+        throw signupError;
+      }
+
+      if (!data.user) {
+        throw new Error(
+          "Unable to complete registration. Please try again."
+        );
+      }
+
+      
+      setForm((previous) => ({
+        ...previous,
+        password: "",
+        confirmPassword: "",
+      }));
+
+      setSignupComplete(true);
+
+      
+      if (data.session) {
+        setSuccess(
+          "Your account has been created successfully. You are now signed in."
+        );
+      } else {
+        setSuccess(
+          "Registration request received. If the account is eligible, you will receive an email with a confirmation link. Please check your inbox."
+        );
+      }
+
+    } catch (err) {
+      console.error(
+        "Supabase signup error:",
+        err.name || "SignupError"
+      );
+
+      setError(
+        err.message ||
+        "Something went wrong. Please try again."
+      );
+
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <PageTransition>
       <section className="signup-page">
         <div className="signup-wrapper">
+
+          {/* LEFT SIDE - INTRODUCTION */}
+
           <div className="signup-intro">
             <span className="section-label">
               JOIN THE EXPERIENCE
@@ -72,23 +166,48 @@ function SignUp() {
             </p>
 
             <div className="signup-benefits">
-              <div><CheckCircle2 size={19} /> Discover new experiences</div>
-              <div><CheckCircle2 size={19} /> Manage your bookings</div>
-              <div><CheckCircle2 size={19} /> Save events you love</div>
+              <div>
+                <CheckCircle2 size={19} />
+                Discover new experiences
+              </div>
+
+              <div>
+                <CheckCircle2 size={19} />
+                Manage your bookings
+              </div>
+
+              <div>
+                <CheckCircle2 size={19} />
+                Save events you love
+              </div>
             </div>
           </div>
 
-          <form className="signup-card" onSubmit={handleSubmit}>
+          {/* RIGHT SIDE - SIGNUP FORM */}
+
+          <form
+            className="signup-card"
+            onSubmit={handleSubmit}
+          >
             <div className="signup-icon">
               <UserRound size={25} />
             </div>
 
             <h2>Create your account</h2>
-            <p>Join Raybook and start making memories.</p>
 
-            <label htmlFor="signup-name">Full name</label>
+            <p>
+              Join Raybook and start making memories.
+            </p>
+
+            {/* FULL NAME */}
+
+            <label htmlFor="signup-name">
+              Full name
+            </label>
+
             <div className="signup-input">
               <UserRound size={18} />
+
               <input
                 id="signup-name"
                 name="name"
@@ -97,12 +216,19 @@ function SignUp() {
                 placeholder="Enter your full name"
                 autoComplete="name"
                 required
+                disabled={loading || signupComplete}
               />
             </div>
 
-            <label htmlFor="signup-email">Email address</label>
+            {/* EMAIL ADDRESS */}
+
+            <label htmlFor="signup-email">
+              Email address
+            </label>
+
             <div className="signup-input">
               <Mail size={18} />
+
               <input
                 id="signup-email"
                 type="email"
@@ -112,12 +238,19 @@ function SignUp() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 required
+                disabled={loading || signupComplete}
               />
             </div>
 
-            <label htmlFor="signup-password">Password</label>
+            {/* PASSWORD */}
+
+            <label htmlFor="signup-password">
+              Password
+            </label>
+
             <div className="signup-input">
               <LockKeyhole size={18} />
+
               <input
                 id="signup-password"
                 type={showPassword ? "text" : "password"}
@@ -128,20 +261,36 @@ function SignUp() {
                 autoComplete="new-password"
                 minLength={8}
                 required
+                disabled={loading || signupComplete}
               />
+
               <button
                 type="button"
                 className="signup-eye"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() =>
+                  setShowPassword(!showPassword)
+                }
+                aria-label={
+                  showPassword
+                    ? "Hide password"
+                    : "Show password"
+                }
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword
+                  ? <EyeOff size={18} />
+                  : <Eye size={18} />}
               </button>
             </div>
 
-            <label htmlFor="signup-confirm">Confirm password</label>
+            {/* CONFIRM PASSWORD */}
+
+            <label htmlFor="signup-confirm">
+              Confirm password
+            </label>
+
             <div className="signup-input">
               <LockKeyhole size={18} />
+
               <input
                 id="signup-confirm"
                 type={showConfirm ? "text" : "password"}
@@ -151,27 +300,78 @@ function SignUp() {
                 placeholder="Confirm your password"
                 autoComplete="new-password"
                 required
+                disabled={loading || signupComplete}
               />
+
               <button
                 type="button"
                 className="signup-eye"
-                onClick={() => setShowConfirm(!showConfirm)}
-                aria-label={showConfirm ? "Hide password" : "Show password"}
+                onClick={() =>
+                  setShowConfirm(!showConfirm)
+                }
+                aria-label={
+                  showConfirm
+                    ? "Hide password"
+                    : "Show password"
+                }
               >
-                {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showConfirm
+                  ? <EyeOff size={18} />
+                  : <Eye size={18} />}
               </button>
             </div>
 
-            {error && <p className="signup-error" role="alert">{error}</p>}
+            {/* ERROR MESSAGE */}
 
-            <button className="signup-submit" type="submit">
-              Create account <ArrowRight size={18} />
+            {error && (
+              <p
+                className="signup-error"
+                role="alert"
+              >
+                {error}
+              </p>
+            )}
+
+            {/* SUCCESS MESSAGE */}
+
+            {success && (
+              <p
+                className="signup-success"
+                role="status"
+                aria-live="polite"
+              >
+                <CheckCircle2 size={18} />
+                {success}
+              </p>
+            )}
+
+            {/* CREATE ACCOUNT BUTTON */}
+
+            <button
+              className="signup-submit"
+              type="submit"
+              disabled={loading || signupComplete}
+            >
+              {loading
+                ? "Creating account..."
+                : signupComplete
+                  ? "Registration received"
+                  : "Create account"}
+
+              {!loading && !signupComplete && (
+                <ArrowRight size={18} />
+              )}
             </button>
+
+            {/* SIGN IN LINK */}
 
             <div className="signup-login">
               Already have an account?{" "}
-              <Link to="/account">Sign in</Link>
+              <Link to="/account">
+                Sign in
+              </Link>
             </div>
+
           </form>
         </div>
       </section>
