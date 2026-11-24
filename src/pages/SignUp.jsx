@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -33,7 +32,6 @@ function SignUp() {
   const [loading, setLoading] = useState(false);
   const [signupComplete, setSignupComplete] = useState(false);
 
-
   const updateField = (event) => {
     const { name, value } = event.target;
 
@@ -44,7 +42,6 @@ function SignUp() {
 
     setError("");
   };
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -57,20 +54,16 @@ function SignUp() {
     const fullName = form.name.trim();
     const email = form.email.trim().toLowerCase();
 
-    
     if (fullName.length < 2) {
       setError("Please enter your full name.");
       return;
     }
 
     if (form.password.length < 8) {
-      setError(
-        "Password must contain at least 8 characters."
-      );
+      setError("Password must contain at least 8 characters.");
       return;
     }
 
-    
     if (form.password !== form.confirmPassword) {
       setError("Your passwords do not match.");
       return;
@@ -79,33 +72,28 @@ function SignUp() {
     setLoading(true);
 
     try {
-    
-      const { data, error: signupError } =
-        await supabase.auth.signUp({
-          email,
-          password: form.password,
+      const { data, error: signupError } = await supabase.auth.signUp({
+        email,
+        password: form.password,
 
-          options: {
-            data: {
-              full_name: fullName,
-            },
-
-            emailRedirectTo:
-              `${window.location.origin}/account`,
+        options: {
+          data: {
+            full_name: fullName,
+            raybook_signup_type: "customer",
           },
-        });
+
+          emailRedirectTo: `${window.location.origin}/account`,
+        },
+      });
 
       if (signupError) {
         throw signupError;
       }
 
       if (!data.user) {
-        throw new Error(
-          "Unable to complete registration. Please try again."
-        );
+        throw new Error("Unable to complete registration. Please try again.");
       }
 
-      
       setForm((previous) => ({
         ...previous,
         password: "",
@@ -114,28 +102,19 @@ function SignUp() {
 
       setSignupComplete(true);
 
-      
       if (data.session) {
         setSuccess(
-          "Your account has been created successfully. You are now signed in."
+          "Your account has been created successfully. You are now signed in.",
         );
       } else {
         setSuccess(
-          "Registration request received. If the account is eligible, you will receive an email with a confirmation link. Please check your inbox."
+          "Registration request received. If the account is eligible, you will receive an email with a confirmation link. Please check your inbox.",
         );
       }
-
     } catch (err) {
-      console.error(
-        "Supabase signup error:",
-        err.name || "SignupError"
-      );
+      console.error("Supabase signup error:", err.name || "SignupError");
 
-      setError(
-        err.message ||
-        "Something went wrong. Please try again."
-      );
-
+      setError(err.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -145,13 +124,10 @@ function SignUp() {
     <PageTransition>
       <section className="signup-page">
         <div className="signup-wrapper">
-
           {/* LEFT SIDE - INTRODUCTION */}
 
           <div className="signup-intro">
-            <span className="section-label">
-              JOIN THE EXPERIENCE
-            </span>
+            <span className="section-label">JOIN THE EXPERIENCE</span>
 
             <h1>
               Every great moment
@@ -160,9 +136,8 @@ function SignUp() {
             </h1>
 
             <p>
-              Create your Raybook account to discover events,
-              secure tickets, and keep your favourite
-              experiences in one place.
+              Create your Raybook account to discover events, secure tickets,
+              and keep your favourite experiences in one place.
             </p>
 
             <div className="signup-benefits">
@@ -185,25 +160,18 @@ function SignUp() {
 
           {/* RIGHT SIDE - SIGNUP FORM */}
 
-          <form
-            className="signup-card"
-            onSubmit={handleSubmit}
-          >
+          <form className="signup-card" onSubmit={handleSubmit}>
             <div className="signup-icon">
               <UserRound size={25} />
             </div>
 
             <h2>Create your account</h2>
 
-            <p>
-              Join Raybook and start making memories.
-            </p>
+            <p>Join Raybook and start making memories.</p>
 
             {/* FULL NAME */}
 
-            <label htmlFor="signup-name">
-              Full name
-            </label>
+            <label htmlFor="signup-name">Full name</label>
 
             <div className="signup-input">
               <UserRound size={18} />
@@ -222,9 +190,7 @@ function SignUp() {
 
             {/* EMAIL ADDRESS */}
 
-            <label htmlFor="signup-email">
-              Email address
-            </label>
+            <label htmlFor="signup-email">Email address</label>
 
             <div className="signup-input">
               <Mail size={18} />
@@ -244,9 +210,7 @@ function SignUp() {
 
             {/* PASSWORD */}
 
-            <label htmlFor="signup-password">
-              Password
-            </label>
+            <label htmlFor="signup-password">Password</label>
 
             <div className="signup-input">
               <LockKeyhole size={18} />
@@ -267,26 +231,16 @@ function SignUp() {
               <button
                 type="button"
                 className="signup-eye"
-                onClick={() =>
-                  setShowPassword(!showPassword)
-                }
-                aria-label={
-                  showPassword
-                    ? "Hide password"
-                    : "Show password"
-                }
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword
-                  ? <EyeOff size={18} />
-                  : <Eye size={18} />}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
 
             {/* CONFIRM PASSWORD */}
 
-            <label htmlFor="signup-confirm">
-              Confirm password
-            </label>
+            <label htmlFor="signup-confirm">Confirm password</label>
 
             <div className="signup-input">
               <LockKeyhole size={18} />
@@ -306,28 +260,17 @@ function SignUp() {
               <button
                 type="button"
                 className="signup-eye"
-                onClick={() =>
-                  setShowConfirm(!showConfirm)
-                }
-                aria-label={
-                  showConfirm
-                    ? "Hide password"
-                    : "Show password"
-                }
+                onClick={() => setShowConfirm(!showConfirm)}
+                aria-label={showConfirm ? "Hide password" : "Show password"}
               >
-                {showConfirm
-                  ? <EyeOff size={18} />
-                  : <Eye size={18} />}
+                {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
 
             {/* ERROR MESSAGE */}
 
             {error && (
-              <p
-                className="signup-error"
-                role="alert"
-              >
+              <p className="signup-error" role="alert">
                 {error}
               </p>
             )}
@@ -335,11 +278,7 @@ function SignUp() {
             {/* SUCCESS MESSAGE */}
 
             {success && (
-              <p
-                className="signup-success"
-                role="status"
-                aria-live="polite"
-              >
+              <p className="signup-success" role="status" aria-live="polite">
                 <CheckCircle2 size={18} />
                 {success}
               </p>
@@ -358,20 +297,14 @@ function SignUp() {
                   ? "Registration received"
                   : "Create account"}
 
-              {!loading && !signupComplete && (
-                <ArrowRight size={18} />
-              )}
+              {!loading && !signupComplete && <ArrowRight size={18} />}
             </button>
 
             {/* SIGN IN LINK */}
 
             <div className="signup-login">
-              Already have an account?{" "}
-              <Link to="/account">
-                Sign in
-              </Link>
+              Already have an account? <Link to="/account">Sign in</Link>
             </div>
-
           </form>
         </div>
       </section>
